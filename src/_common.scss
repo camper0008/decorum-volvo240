@@ -1,0 +1,90 @@
+:root {
+    --dark-gray: #cccccc;
+    --light-gray: #f0f0f0
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+    max-width: 1280px;
+    font-family: "Tahoma", "sans-serif";
+    font-size: 0.75em;
+}
+
+header {
+    background-color: var(--dark-gray);
+}
+
+header nav {
+    display: flex;
+}
+
+header img {
+    padding: 0.2rem;
+}
+
+header nav a:link,
+header nav a:visited {
+    color: white;
+    background-color: black;
+    flex-grow: 1;
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 0.2rem;
+    text-align: center;
+}
+
+header nav a:hover,
+header nav a:focus-within {
+    background-color: steelblue;
+    color: white;
+}
+
+.header-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-search {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding-right: 0.5rem;
+}
+
+.header-search > * {
+    height: min-content;
+}
+
+a:link {
+    color: blue;
+}
+
+a:visited {
+    color: purple;
+}
+
+a:hover, a:focus-within {
+    color: yellow;
+    background-color: purple;
+}
+
+main {
+    background-color: var(--light-gray);
+    padding: 0.5rem;
+}
+
+footer {
+    text-align: center;
+    background-color: var(--dark-gray);
+    padding: 0.5rem;
+}
+
+footer p {
+    margin-top: 0.125rem;
+    margin-bottom: 0;
+}
+

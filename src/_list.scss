@@ -1,0 +1,44 @@
+
+.list  {
+    background-color: var(--dark-gray);
+    padding: 0.125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    height: min-content;
+    
+    .list-title {
+        margin-block: 0.25rem;
+    }
+}
+
+.list-item {
+    display: flex;
+    gap: 0.125rem;
+    flex: 1;
+
+    > * {
+        background-color: var(--light-gray);
+        padding: 0.125rem;
+
+        display: flex;
+        align-items: center;
+    }
+
+    &.list-header > * {
+        background-color: transparent;
+        font-weight: bold;
+    }
+
+    .list-item-time {
+        flex: 0.4;
+    }
+
+    .list-item-category {
+        flex: 0.5;
+    }
+
+    .list-item-title {
+        flex: 1;
+    }
+}
