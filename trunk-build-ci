@@ -1,0 +1,5 @@
+#!/bin/sh
+rustup default stable
+cargo install trunk
+rustup add target wasm32-unknown-unknown
+trunk build --release
