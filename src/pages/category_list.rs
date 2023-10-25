@@ -1,33 +1,13 @@
-use yew::prelude::*;
-use yew_router::prelude::*;
-use crate::route::Route;
+use crate::{models::Category, route::Route};
 use gloo_net::http::Request;
 use serde::Deserialize;
+use yew::prelude::*;
+use yew_router::prelude::*;
 
 #[derive(Clone, PartialEq, Deserialize)]
 struct AllCategoriesResponse {
     ok: bool,
     data: Vec<Category>,
-}
-
-#[derive(Clone, PartialEq, Deserialize)]
-pub enum Permission {
-    Banned,
-    Unverified,
-    User,
-    Admin,
-    Root,
-}
-
-#[derive(Clone, PartialEq, Deserialize)]
-struct Category {
-    id: String,
-    title: String,
-    minimum_write_permission: Permission,
-    minimum_read_permission: Permission,
-    deleted: bool,
-    date_created: String,
-    date_edited: Option<String>,
 }
 
 #[function_component(Categories)]

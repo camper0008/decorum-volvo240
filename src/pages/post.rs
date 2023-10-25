@@ -2,6 +2,8 @@ use gloo_net::http::Request;
 use serde::Deserialize;
 use yew::prelude::*;
 
+use crate::models::PostItem;
+
 #[derive(Clone, PartialEq, Properties)]
 pub struct PostPageProps {
     pub post_id: String,
@@ -9,29 +11,32 @@ pub struct PostPageProps {
 }
 
 #[derive(Clone, PartialEq, Deserialize)]
-struct PostItem {
-    id: usize,
-    title: String,
-    speaker: String,
-    url: String,
+struct PostItemResponse {
+    ok: bool,
+    data: PostItem,
 }
 
 #[function_component(Post)]
 fn post(props: &PostPageProps) -> Html {
     let post = use_state(|| None);
+    let post_id = props.post_id.clone();
+    let category_id = props.category_id.clone();
     {
         let post = post.clone();
         use_effect_with((), move |_| {
             let post = post.clone();
+            let post_id = post_id.clone();
+            let category_id = category_id.clone();
             wasm_bindgen_futures::spawn_local(async move {
-                let fetched_videos: Vec<PostItem> = Request::get("/tutorial/data.json")
-                    .send()
-                    .await
-                    .unwrap()
-                    .json()
-                    .await
-                    .unwrap();
-                post.set(Some(fetched_videos));
+                let fetched_post: PostItemResponse =
+                    Request::get(&format!("/api/posts/post_from_id/{category_id}/{post_id}"))
+                        .send()
+                        .await
+                        .unwrap()
+                        .json()
+                        .await
+                        .unwrap();
+                post.set(Some(fetched_post));
             });
             || ()
         });
@@ -39,7 +44,19 @@ fn post(props: &PostPageProps) -> Html {
 
     html! {
         <div class="content-area">
-            { post.as_ref().map(|f| f.iter().map(|f| html!{ <>{ f.id } {"-"} { f.clone().title } <br /></> }).collect::<Html>()) }
+            {
+                post
+                    .as_ref()
+                    .map(|p| p.clone())
+                    .map(|p|
+                        html!{
+                            <>
+                            <h2>{ p.data.title }</h2>
+                            <p>{ p.data.content }</p>
+                            </>
+                        }
+                )
+            }
         </div>
     }
 }

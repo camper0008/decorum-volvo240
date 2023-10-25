@@ -1,4 +1,4 @@
-use crate::route::Route;
+use crate::{models::PostItem, route::Route};
 use gloo_net::http::Request;
 use serde::Deserialize;
 use yew::prelude::*;
@@ -8,28 +8,6 @@ use yew_router::prelude::*;
 struct CategoryPostsResponse {
     ok: bool,
     data: Vec<PostItem>,
-}
-
-#[derive(Clone, PartialEq, Deserialize)]
-struct PostItem {
-    pub id: String,
-    pub category_id: String,
-    pub title: String,
-    pub content: String,
-    pub creator_id: String,
-    pub deleted: bool,
-    pub locked: bool,
-    pub date_created: String,
-    pub date_edited: Option<String>,
-}
-
-#[derive(Clone, PartialEq, Deserialize)]
-pub enum Permission {
-    Banned,
-    Unverified,
-    User,
-    Admin,
-    Root,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -80,6 +58,9 @@ fn posts(props: &PostsProps) -> Html {
                         <div class="list-item-title">
                             <Link<Route> to={Route::Post { post_title: post.title.clone(), category_id: props.category_id.clone(), post_id: post.id }}>{ post.title }</Link<Route>>
                         </div>
+                        <time class="list-item-time">
+                            {post.date_created}
+                        </time>
                     </div>
                 }
             })
@@ -97,6 +78,7 @@ pub fn post_list_page(props: &PostListProps) -> Html {
                     <div class="list-item-title">
                         {"Indlæg"}
                     </div>
+                    <div class="list-item-time">{"Tidspunkt skabt"}</div>
                 </div>
 
                 <Posts category_id={props.category_id.clone()}/>
