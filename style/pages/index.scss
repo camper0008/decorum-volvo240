@@ -1,0 +1,19 @@
+main > .index {
+    display: flex;
+    gap: 0.5rem;
+
+    > * {
+        border: 1px solid var(--light-gray);
+        outline: 1px solid var(--dark-gray);
+    }
+
+    > img {
+        max-height: 200px;
+        max-width: 302px;
+        object-fit: contain;
+    }
+
+    > :not(img) {
+        flex: 1;
+    }
+}

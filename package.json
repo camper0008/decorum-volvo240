@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "dev": "sass src/:public/ -w",
-    "build": "sass src/:public/ --no-source-map"
-  },
-  "dependencies": {
-    "sass": "^1.68.0"
-  }
-}

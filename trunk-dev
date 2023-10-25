@@ -1,0 +1,2 @@
+#!/bin/sh
+trunk serve --proxy-backend=https://api.volvo240.dk/ --proxy-rewrite=/api/
