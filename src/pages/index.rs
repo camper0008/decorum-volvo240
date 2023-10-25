@@ -1,4 +1,7 @@
 use yew::prelude::*;
+use yew_router::prelude::Link;
+
+use crate::route::Route;
 
 #[function_component(IndexPage)]
 pub fn index() -> Html {
@@ -22,7 +25,7 @@ pub fn index() -> Html {
                         {"Kategori"}
                     </div>
                     <div class="list-item-title">
-                        <a href="#">{"test-titel"}</a>
+                        <Link<Route> to={Route::NotFound}>{ "Test Titel" }</Link<Route>>
                     </div>
                 </div>
             </div>
@@ -39,7 +42,7 @@ pub fn index() -> Html {
                 <div class="list-item">
                     <time class="list-item-time">{"d. 20/07-2004"}</time>
                     <div class="list-item-title">
-                        <a href="#">{"test-titel"}</a>
+                        <Link<Route> to={Route::NotFound}>{ "Test Titel" }</Link<Route>>
                     </div>
                 </div>
             </div>

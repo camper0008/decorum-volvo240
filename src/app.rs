@@ -9,8 +9,8 @@ use yew_router::prelude::*;
 pub fn footer() -> Html {
     html! {
     <footer>
-        <a href="/">{"Startside"}</a> {" | "}
-        <a href="/contact">{"Kontakt"}</a>
+        <Link<Route> to={Route::Home}>{ "Startside" }</Link<Route>>
+        <Link<Route> to={Route::NotFound}>{ "Kontakt" }</Link<Route>>
         <p>{"volvo240.dk"}</p>
     </footer>
     }
@@ -23,7 +23,7 @@ pub fn header() -> Html {
         <nav>
             <Link<Route> to={Route::Home}>{ "Startside" }</Link<Route>>
             <Link<Route> to={Route::CategoryList}>{ "Kategori" }</Link<Route>>
-            <a href="/login">{"Log ind"}</a>
+            <Link<Route> to={Route::NotFound}>{ "Log ind" }</Link<Route>>
         </nav>
         <div class="header-list">
             <img src="/static/logo.jpg" />
