@@ -1,0 +1,4 @@
+#!/bin/sh
+# dev env for windows
+docker build docker/dev -t decorum-volvo240-dev-env
+docker run --name dev-env --rm -p 8080:8080 -it --mount type=bind,source="$(pwd)"/,target=/workspace decorum-volvo240-dev-env

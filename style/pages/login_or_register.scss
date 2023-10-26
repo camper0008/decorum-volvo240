@@ -1,0 +1,29 @@
+.login_or_register {
+    h1 {
+        text-align: center;
+    }
+    .error, .success {
+        text-align: center;
+    }
+    .success {
+        color: green;
+        &::before {
+            content: "Success!: "
+        }
+    }
+    .error {
+        color: red;
+        &::before {
+            content: "En fejl opstod: "
+        }
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        input, label {
+            max-width: max-content;
+        }
+    }
+}

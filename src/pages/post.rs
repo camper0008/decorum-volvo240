@@ -62,7 +62,7 @@ fn post(props: &PostPageProps) -> Html {
 }
 
 #[function_component(PostPage)]
-pub fn post(props: &PostPageProps) -> Html {
+pub fn post_page(props: &PostPageProps) -> Html {
     let PostPageProps {
         category_id,
         post_id,

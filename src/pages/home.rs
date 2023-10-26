@@ -3,8 +3,8 @@ use yew_router::prelude::Link;
 
 use crate::route::Route;
 
-#[function_component(IndexPage)]
-pub fn index() -> Html {
+#[function_component(HomePage)]
+pub fn home_page() -> Html {
     html! {
         <div class="index">
             <div class="list">

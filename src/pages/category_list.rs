@@ -50,7 +50,7 @@ fn categories() -> Html {
 }
 
 #[function_component(CategoryListPage)]
-pub fn forum_list() -> Html {
+pub fn category_list_page() -> Html {
     html! {
         <div class="forum_list">
             <div class="list">

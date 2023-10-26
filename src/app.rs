@@ -1,5 +1,5 @@
 use crate::{
-    pages::{CategoryListPage, IndexPage, NotFoundPage, PostListPage, PostPage},
+    pages::{CategoryListPage, HomePage, NotFoundPage, PostListPage, PostPage, LoginOrRegisterPage, LoginOrRegister},
     route::Route,
 };
 use yew::prelude::*;
@@ -10,6 +10,7 @@ pub fn footer() -> Html {
     html! {
     <footer>
         <Link<Route> to={Route::Home}>{ "Startside" }</Link<Route>>
+        {" | "}
         <Link<Route> to={Route::NotFound}>{ "Kontakt" }</Link<Route>>
         <p>{"volvo240.dk"}</p>
     </footer>
@@ -23,7 +24,7 @@ pub fn header() -> Html {
         <nav>
             <Link<Route> to={Route::Home}>{ "Startside" }</Link<Route>>
             <Link<Route> to={Route::CategoryList}>{ "Kategori" }</Link<Route>>
-            <Link<Route> to={Route::NotFound}>{ "Log ind" }</Link<Route>>
+            <Link<Route> to={Route::Login}>{ "Log ind" }</Link<Route>>
         </nav>
         <div class="header-list">
             <img src="/static/logo.jpg" />
@@ -43,9 +44,19 @@ fn switch(routes: Route) -> Html {
                 <CategoryListPage />
             }
         }
+        Route::Login => {
+            html! {
+                <LoginOrRegisterPage variant={LoginOrRegister::Login} />
+            }
+        }
+        Route::Register => {
+            html! {
+                <LoginOrRegisterPage variant={LoginOrRegister::Register} />
+            }
+        }
         Route::Home => {
             html! {
-                <IndexPage />
+                <HomePage />
             }
         }
         Route::PostList {

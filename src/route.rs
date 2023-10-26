@@ -4,6 +4,10 @@ use yew_router::prelude::*;
 pub enum Route {
     #[at("/")]
     Home,
+    #[at("/login")]
+    Login,
+    #[at("/register")]
+    Register,
     #[at("/categories")]
     CategoryList,
     #[at("/category/:category_id/:category_title")]
