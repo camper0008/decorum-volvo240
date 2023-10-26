@@ -1,5 +1,5 @@
 use crate::{
-    pages::{CategoryListPage, HomePage, NotFoundPage, PostListPage, PostPage, LoginOrRegisterPage, LoginOrRegister},
+    pages::{CategoryListPage, HomePage, NotFoundPage, PostListPage, PostPage, LoginOrRegisterPage, LoginOrRegister, ContactPage},
     route::Route,
 };
 use yew::prelude::*;
@@ -11,7 +11,7 @@ pub fn footer() -> Html {
     <footer>
         <Link<Route> to={Route::Home}>{ "Startside" }</Link<Route>>
         {" | "}
-        <Link<Route> to={Route::NotFound}>{ "Kontakt" }</Link<Route>>
+        <Link<Route> to={Route::Contact}>{ "Kontakt" }</Link<Route>>
         <p>{"volvo240.dk"}</p>
     </footer>
     }
@@ -50,6 +50,9 @@ fn switch(routes: Route) -> Html {
         }
         Route::Home => {
             html! { <HomePage /> }
+        }
+        Route::Contact => {
+            html! { <ContactPage /> }
         }
         Route::PostList {
             category_id,

@@ -6,7 +6,7 @@ use crate::route::Route;
 #[function_component(HomePage)]
 pub fn home_page() -> Html {
     html! {
-        <div class="index">
+        <div class="home">
             <div class="list">
                 <h3 class="list-title">{"Seneste indlæg"}</h3>
                 <div class="list-item list-header">
