@@ -40,46 +40,32 @@ pub fn header() -> Html {
 fn switch(routes: Route) -> Html {
     match routes {
         Route::CategoryList => {
-            html! {
-                <CategoryListPage />
-            }
+            html! { <CategoryListPage /> }
         }
         Route::Login => {
-            html! {
-                <LoginOrRegisterPage variant={LoginOrRegister::Login} />
-            }
+            html! { <LoginOrRegisterPage variant={LoginOrRegister::Login} /> }
         }
         Route::Register => {
-            html! {
-                <LoginOrRegisterPage variant={LoginOrRegister::Register} />
-            }
+            html! { <LoginOrRegisterPage variant={LoginOrRegister::Register} /> }
         }
         Route::Home => {
-            html! {
-                <HomePage />
-            }
+            html! { <HomePage /> }
         }
         Route::PostList {
             category_id,
             category_title,
         } => {
-            html! {
-                <PostListPage category_title={ category_title } category_id={ category_id } />
-            }
+            html! { <PostListPage category_title={ category_title } category_id={ category_id } /> }
         }
         Route::NotFound => {
-            html! {
-                <NotFoundPage />
-            }
+            html! { <NotFoundPage /> }
         }
         Route::Post {
             post_id,
             category_id,
             ..
         } => {
-            html! {
-                <PostPage post_id={post_id} category_id={category_id} />
-            }
+            html! { <PostPage post_id={post_id} category_id={category_id} /> }
         }
     }
 }
