@@ -1,9 +1,9 @@
+use crate::route::Route;
 use gloo_net::http::Request;
 use serde::{Deserialize, Serialize};
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use web_sys::HtmlInputElement;
-use crate::route::Route;
 
 #[derive(Clone, PartialEq)]
 pub enum LoginOrRegister {
@@ -19,7 +19,7 @@ pub struct Props {
 #[derive(Deserialize)]
 struct Response {
     ok: bool,
-    message: String,
+    data: String,
 }
 
 #[derive(Serialize, Default)]
@@ -32,12 +32,12 @@ struct User {
 pub fn login_or_register_page(props: &Props) -> Html {
     let status_response = use_state(|| None::<Response>);
     let (text, alt_text, route, endpoint) = match props.variant {
-        LoginOrRegister::Register => {("Opret konto", "Log ind", Route::Login, "register")},
-        LoginOrRegister::Login => {("Log ind", "Opret konto", Route::Register, "login")}
+        LoginOrRegister::Register => ("Opret konto", "Log ind", Route::Login, "register"),
+        LoginOrRegister::Login => ("Log ind", "Opret konto", Route::Register, "login"),
     };
     let username = use_node_ref();
     let password = use_node_ref();
-    let click = {    
+    let click = {
         let status_response = status_response.clone();
         let username = username.clone();
         let password = password.clone();
@@ -51,10 +51,16 @@ pub fn login_or_register_page(props: &Props) -> Html {
             wasm_bindgen_futures::spawn_local(async move {
                 let response = {
                     let response = (|| async {
-                        let username: HtmlInputElement = username.clone().cast().ok_or_else(|| "internal error: username: option = none".to_string())?;
-                        let password: HtmlInputElement = password.clone().cast().ok_or_else(|| "internal error: password: option = none".to_string())?;
+                        let username: HtmlInputElement = username
+                            .clone()
+                            .cast()
+                            .ok_or_else(|| "internal error: username: option = none".to_string())?;
+                        let password: HtmlInputElement = password
+                            .clone()
+                            .cast()
+                            .ok_or_else(|| "internal error: password: option = none".to_string())?;
                         let user = User {
-                            username: username.value(), 
+                            username: username.value(),
                             password: password.value(),
                         };
                         let body = serde_json::to_string(&user).map_err(|err| err.to_string())?;
@@ -62,16 +68,15 @@ pub fn login_or_register_page(props: &Props) -> Html {
                             .header("Content-Type", "application/json")
                             .body(body)
                             .map_err(|data| data.to_string())?;
-                        let response = response.send()
-                            .await
-                            .map_err(|data| data.to_string())?;
+                        let response = response.send().await.map_err(|data| data.to_string())?;
 
                         response.json().await.map_err(|err| err.to_string())
-                    })().await;
-                    
+                    })()
+                    .await;
+
                     let response = match response {
                         Ok(response) => response,
-                        Err(message) => Response { message, ok: false },
+                        Err(data) => Response { data, ok: false },
                     };
                     response
                 };
@@ -83,7 +88,7 @@ pub fn login_or_register_page(props: &Props) -> Html {
         <div class="login_or_register">
             { status_response.as_ref().map(|response| {
                 html! {
-                    <div class={if response.ok {"success"} else {"error"}}>{&response.message}</div>
+                    <div class={if response.ok {"success"} else {"error"}}>{&response.data}</div>
                 }
             }) }
             <h1>{text}</h1>

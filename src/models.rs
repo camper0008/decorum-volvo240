@@ -32,3 +32,13 @@ pub struct Category {
     pub date_created: String,
     pub date_edited: Option<String>,
 }
+
+#[derive(Clone, PartialEq, Deserialize)]
+pub struct User {
+    pub id: String,
+    pub username: String,
+    pub nickname: Option<String>,
+    pub permission: Permission,
+    pub avatar_id: Option<String>,
+    pub date_created: String,
+}
