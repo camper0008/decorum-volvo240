@@ -65,7 +65,7 @@ pub fn header() -> Html {
             let user = user.clone();
             wasm_bindgen_futures::spawn_local(async move {
                 let user = user.clone();
-                let response = Request::get("/api/users/logout").send().await.unwrap();
+                let response = Request::post("/api/users/logout").send().await.unwrap();
                 if response.status() == 200 {
                     user.set(None);
                 }
