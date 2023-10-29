@@ -16,32 +16,33 @@ body {
 
 header {
     background-color: var(--dark-gray);
+    nav {
+        display: flex;
+        a {
+            &:link,
+            &:visited {
+                color: white;
+                background-color: black;
+                flex-grow: 1;
+                text-decoration: none;
+                font-size: 0.9em;
+                padding: 0.2rem;
+                text-align: center;
+            }
+            &:hover,
+            &:focus-within {
+                background-color: steelblue;
+                color: white;
+            }
+        }
+    }
+    img {
+        padding: 0.2rem;
+    }
+
 }
 
-header nav {
-    display: flex;
-}
 
-header img {
-    padding: 0.2rem;
-}
-
-header nav a:link,
-header nav a:visited {
-    color: white;
-    background-color: black;
-    flex-grow: 1;
-    text-decoration: none;
-    font-size: 0.9em;
-    padding: 0.2rem;
-    text-align: center;
-}
-
-header nav a:hover,
-header nav a:focus-within {
-    background-color: steelblue;
-    color: white;
-}
 
 .header-list {
     display: flex;
@@ -53,24 +54,26 @@ header nav a:focus-within {
     gap: 0.5rem;
     align-items: center;
     padding-right: 0.5rem;
+
+    > * {
+        height: min-content;
+    }
 }
 
-.header-search > * {
-    height: min-content;
+a {
+    &:link {
+        color: blue;
+    }
+    &:visited {
+        color: purple;
+    }
+
+    &:hover, &:focus-within {
+        color: yellow;
+        background-color: purple;
+    }
 }
 
-a:link {
-    color: blue;
-}
-
-a:visited {
-    color: purple;
-}
-
-a:hover, a:focus-within {
-    color: yellow;
-    background-color: purple;
-}
 
 main {
     background-color: var(--light-gray);
@@ -81,9 +84,12 @@ footer {
     text-align: center;
     background-color: var(--dark-gray);
     padding: 0.5rem;
-}
+    p {
+        margin-top: 0.125rem;
+        margin-bottom: 0;
 
-footer p {
-    margin-top: 0.125rem;
-    margin-bottom: 0;
+        &.commit {
+            color: gray;
+        }
+    }
 }

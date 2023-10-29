@@ -26,12 +26,15 @@ struct UserResponse {
 
 #[function_component(Footer)]
 pub fn footer() -> Html {
+    let commit = option_env!("COMMIT_REF")
+        .map(|hash| html! { <p class="commit">{"(version: "} { hash } {")"}</p> });
     html! {
     <footer>
         <Link<Route> to={Route::Home}>{ "Startside" }</Link<Route>>
         {" | "}
         <Link<Route> to={Route::Contact}>{ "Kontakt" }</Link<Route>>
         <p>{"volvo240.dk"}</p>
+        {commit}
     </footer>
     }
 }
