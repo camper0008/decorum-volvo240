@@ -1,4 +1,14 @@
 use serde::Deserialize;
+use yew::UseStateHandle;
+
+pub type UserState = UseStateHandle<Option<UserOrError>>;
+
+#[derive(Deserialize, PartialEq, Clone)]
+#[serde(untagged)]
+pub enum UserOrError {
+    Error(String),
+    User(User),
+}
 
 #[derive(Clone, PartialEq, Deserialize)]
 pub struct PostItem {

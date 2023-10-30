@@ -1,5 +1,6 @@
 use crate::{
-    models::User,
+    api::user_from_session,
+    models::{UserOrError, UserState},
     pages::{
         CategoryListPage, ContactPage, HomePage, LoginOrRegister, LoginOrRegisterPage,
         NotFoundPage, PostListPage, PostPage,
@@ -7,22 +8,8 @@ use crate::{
     route::Route,
 };
 use gloo_net::http::Request;
-use serde::Deserialize;
 use yew::prelude::*;
 use yew_router::prelude::*;
-
-#[derive(Deserialize, PartialEq, Clone)]
-#[serde(untagged)]
-enum UserOrError {
-    Error(String),
-    User(User),
-}
-
-#[derive(Clone, PartialEq, Deserialize)]
-struct UserResponse {
-    ok: bool,
-    data: UserOrError,
-}
 
 #[function_component(Footer)]
 pub fn footer() -> Html {
@@ -39,28 +26,14 @@ pub fn footer() -> Html {
     }
 }
 
+#[derive(Clone, PartialEq, Properties)]
+struct HeaderProps {
+    user: UserState,
+}
+
 #[function_component(Header)]
-pub fn header() -> Html {
-    let user = use_state(|| None);
-
-    {
-        let user = user.clone();
-        use_effect_with((), move |_| {
-            let user = user.clone();
-            wasm_bindgen_futures::spawn_local(async move {
-                let response: UserResponse = Request::get("/api/users/user_from_session")
-                    .send()
-                    .await
-                    .unwrap()
-                    .json()
-                    .await
-                    .unwrap();
-                user.set(Some(response.data));
-            });
-            || ()
-        });
-    };
-
+fn header(props: &HeaderProps) -> Html {
+    let user = props.user.clone();
     let logout_click = {
         let user = user.clone();
         move |event: MouseEvent| {
@@ -103,16 +76,16 @@ pub fn header() -> Html {
     }
 }
 
-fn switch(routes: Route) -> Html {
+fn switch(routes: Route, user: UserState) -> Html {
     match routes {
         Route::CategoryList => {
             html! { <CategoryListPage /> }
         }
         Route::Login => {
-            html! { <LoginOrRegisterPage variant={LoginOrRegister::Login} /> }
+            html! { <LoginOrRegisterPage variant={LoginOrRegister::Login} user={user} /> }
         }
         Route::Register => {
-            html! { <LoginOrRegisterPage variant={LoginOrRegister::Register} /> }
+            html! { <LoginOrRegisterPage variant={LoginOrRegister::Register} user={user} /> }
         }
         Route::Home => {
             html! { <HomePage /> }
@@ -141,13 +114,27 @@ fn switch(routes: Route) -> Html {
 
 #[function_component(App)]
 pub fn app() -> Html {
+    let user = use_state(|| None);
+
+    {
+        let user = user.clone();
+        use_effect_with((), move |_| {
+            let user = user.clone();
+            wasm_bindgen_futures::spawn_local(async move {
+                let response = user_from_session().await;
+                user.set(Some(response.data));
+            });
+            || ()
+        });
+    };
+
     html! {
         <>
             <BrowserRouter>
-                <Header />
+                <Header user={user.clone()} />
                 <hr />
                 <main>
-                        <Switch<Route> render={switch} />
+                        <Switch<Route> render={move |route| switch(route, user.clone())} />
                 </main>
                 <hr />
                 <Footer />

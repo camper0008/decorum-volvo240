@@ -1,4 +1,4 @@
-use crate::route::Route;
+use crate::{api::user_from_session, models::UserState, route::Route};
 use gloo_net::http::Request;
 use serde::{Deserialize, Serialize};
 use web_sys::HtmlInputElement;
@@ -14,6 +14,7 @@ pub enum LoginOrRegister {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     pub variant: LoginOrRegister,
+    pub user: UserState,
 }
 
 #[derive(Deserialize)]
@@ -31,22 +32,25 @@ struct User {
 #[function_component(LoginOrRegisterPage)]
 pub fn login_or_register_page(props: &Props) -> Html {
     let status_response = use_state(|| None::<Response>);
-    let (text, alt_text, route, endpoint) = match props.variant {
-        LoginOrRegister::Register => ("Opret konto", "Log ind", Route::Login, "register"),
-        LoginOrRegister::Login => ("Log ind", "Opret konto", Route::Register, "login"),
+    let (text, alt_text, route, endpoint, refresh_session_on_success) = match props.variant {
+        LoginOrRegister::Register => ("Opret konto", "Log ind", Route::Login, "register", false),
+        LoginOrRegister::Login => ("Log ind", "Opret konto", Route::Register, "login", true),
     };
     let username = use_node_ref();
     let password = use_node_ref();
+    let user = props.user.clone();
     let click = {
         let status_response = status_response.clone();
         let username = username.clone();
         let password = password.clone();
+        let user = user.clone();
 
         Callback::from(move |ev: MouseEvent| {
             ev.prevent_default();
             let status_response = status_response.clone();
             let username = username.clone();
             let password = password.clone();
+            let user = user.clone();
 
             wasm_bindgen_futures::spawn_local(async move {
                 let response = {
@@ -79,6 +83,10 @@ pub fn login_or_register_page(props: &Props) -> Html {
                         Err(data) => Response { data, ok: false },
                     };
                     response
+                };
+                if refresh_session_on_success && response.ok {
+                    let response = user_from_session().await;
+                    user.set(Some(response.data));
                 };
                 status_response.set(Some(response));
             });

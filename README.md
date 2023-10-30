@@ -4,7 +4,6 @@
 - post/reply editor component (+attachment)
 - admin page
 - permission checking
-- move shared decorum functionality into seperate crate? such as permissions & permission_verification
+- move shared decorum functionality into seperate crate? such as permissions & permission\_verification
 - search functionality
 - post/reply "created by"
-- user from cookie
